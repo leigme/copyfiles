@@ -1,0 +1,32 @@
+2018-02-01 16:00:08 [main:206] - method:me.leig.tools.copyfiles.comm.Tool.strToDate(Tool.kt:99)
+ 字符串格式错误...
+2018-02-01 16:00:08 [main:206] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: 字符串格式错误
+2018-02-01 16:00:45 [main:218] - method:me.leig.tools.copyfiles.comm.Tool.strToDate(Tool.kt:99)
+ 字符串格式错误...
+2018-02-01 16:00:45 [main:219] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: 字符串格式错误
+2018-02-01 17:47:13 [main:273] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: String index out of range: -2
+2018-02-01 17:49:26 [main:275] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: String index out of range: -2
+2018-02-01 18:24:20 [main:276] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: String index out of range: -1
+2018-02-01 18:25:22 [main:244] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: String index out of range: -1
+2018-02-01 18:26:45 [main:252] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: String index out of range: -2
+2018-02-01 18:27:58 [main:253] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: String index out of range: -2
+2018-02-01 18:30:52 [main:247] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: String index out of range: -3
+2018-02-01 18:31:16 [main:237] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: String index out of range: -3
+2018-02-01 18:31:26 [main:245] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: String index out of range: -2
+2018-02-01 18:43:26 [main:249] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: String index out of range: -3
+2018-02-01 18:57:07 [main:136] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: E:\Desktop\uploads\2018-02-01 18:57:479\3Y0Y5NR3K_TB6[9]%RL2K$B.png (文件名、目录名或卷标语法不正确。)
+2018-02-01 19:04:26 [main:178] - method:me.leig.tools.copyfiles.AppKt.main(App.kt:34)
+捕获异常: Index: 2, Size: 2
