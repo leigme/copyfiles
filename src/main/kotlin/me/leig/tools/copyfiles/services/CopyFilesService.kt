@@ -23,7 +23,8 @@ import javax.activation.MimetypesFileTypeMap
  *
  */
 
-class CopyFilesService {
+class CopyFilesService constructor(private val isCopyFile: Boolean = true,
+                                   private val isOverride: Boolean = true) {
 
     private val log = Logger.getLogger(CopyFilesService::class.java)
 
@@ -59,8 +60,9 @@ class CopyFilesService {
             fileInfoBean.filesize = source.length()
             fileInfoBean.filetype = 2
             fileInfoBean.mimetype = mimeType.toString()
-            fileInfoBean.fileDir = Tool().dateToStr(Date(), "yMd")
-                    .replace("-", "")
+//            fileInfoBean.fileDir = Tool().dateToStr(Date(), "yMd")
+//                    .replace("-", "")
+            fileInfoBean.fileDir = "20180201"
 
             val suffixs = fileInfoBean.fileName.split(".")
 
@@ -77,24 +79,32 @@ class CopyFilesService {
 
                     if ("" != imgInfoBean.dateTime) {
 
-                        val timeString = imgInfoBean.dateTime.replace(":", "")
+                        try {
 
-                        fileInfoBean.fileDir = timeString.substring(0, 8)
+                            fileInfoBean.createtime = Tool().strToDate(imgInfoBean.dateTime, "yyyy:MM:dd HH:mm:SS")
 
-                        fileInfoBean.fileName = StringBuilder(timeString.replace(" ", ""))
-                                .append(".")
-                                .append(suffix)
-                                .toString()
+                            val timeString = imgInfoBean.dateTime.replace(":", "")
 
-                        fileInfoBean.createtime = Tool().strToDate(imgInfoBean.dateTime, "yyyy:MM:dd HH:mm:SS")
+                            fileInfoBean.fileDir = timeString.substring(0, 8)
+
+                            fileInfoBean.fileName = StringBuilder(timeString.replace(" ", ""))
+                                    .append(".")
+                                    .append(suffix)
+                                    .toString()
+
+                        } catch (e: Exception) {
+
+                            fileInfoBean.fileDir = "exception"
+
+                            fileInfoBean.createtime = Date()
+
+                        }
                     }
 
                     fileInfoBean.longitude = imgInfoBean.longitude
 
                     fileInfoBean.latitude = imgInfoBean.latitude
                 }
-
-
             }
 
             // 存储路径
@@ -107,19 +117,48 @@ class CopyFilesService {
                 File(target, fileInfoBean.fileDir).mkdir()
             }
 
-            val outFile = FileOutputStream(File(target, fileInfoBean.saveurl))
+            if (isCopyFile) {
 
-            val buffer = ByteArray(1024)
+                if (File(target, fileInfoBean.saveurl).exists()) {
 
-            var length: Int = inFile.read(buffer)
+                    if (isOverride) {
 
-            while (length > 0) {
-                outFile.write(buffer, 0, length)
-                length = inFile.read(buffer)
+                        log.info("正在将${fileInfoBean.saveurl} 复制到${fileInfoBean.title}")
+
+                        val outFile = FileOutputStream(File(target, fileInfoBean.saveurl))
+
+                        val buffer = ByteArray(1024)
+
+                        var length: Int = inFile.read(buffer)
+
+                        while (length > 0) {
+                            outFile.write(buffer, 0, length)
+                            length = inFile.read(buffer)
+                        }
+
+                        inFile.close()
+                        outFile.close()
+                    }
+
+                } else {
+
+                    log.info("正在将${fileInfoBean.saveurl} 复制到${fileInfoBean.title}")
+
+                    val outFile = FileOutputStream(File(target, fileInfoBean.saveurl))
+
+                    val buffer = ByteArray(1024)
+
+                    var length: Int = inFile.read(buffer)
+
+                    while (length > 0) {
+                        outFile.write(buffer, 0, length)
+                        length = inFile.read(buffer)
+                    }
+
+                    inFile.close()
+                    outFile.close()
+                }
             }
-
-            inFile.close()
-            outFile.close()
 
             fileInfoBeans.add(fileInfoBean)
         }
@@ -166,29 +205,31 @@ class CopyFilesService {
             for (tag in directory.tags) {
                 val tagName = tag.tagName
                 val desc = tag.description
-                when (tagName) {
-                // 图片高度
-                    "Image Height" ->
-                        imgInfoBean.imgHeight = desc
-                // 图片宽度
-                    "Image Width" ->
-                        imgInfoBean.imgWidth = desc
-                // 拍摄时间
-                    "Date/Time Original" ->
-                        imgInfoBean.dateTime = desc
-                // 海拔
-                    "GPS Altitude" ->
-                        imgInfoBean.altitude = desc
-                // 经度
-                    "GPS Longitude" ->
-                        imgInfoBean.longitude = pointToLatlong(desc)
-                // 纬度
-                    "GPS Latitude" ->
-                        imgInfoBean.latitude = pointToLatlong(desc)
+                if (null != desc) {
+                    when (tagName) {
+                    // 图片高度
+                        "Image Height" ->
+                            imgInfoBean.imgHeight = desc
+                    // 图片宽度
+                        "Image Width" ->
+                            imgInfoBean.imgWidth = desc
+                    // 拍摄时间
+                        "Date/Time Original" ->
+                            imgInfoBean.dateTime = desc
+                    // 海拔
+                        "GPS Altitude" ->
+                            imgInfoBean.altitude = desc
+                    // 经度
+                        "GPS Longitude" ->
+                            imgInfoBean.longitude = pointToLatlong(desc)
+                    // 纬度
+                        "GPS Latitude" ->
+                            imgInfoBean.latitude = pointToLatlong(desc)
+                    }
                 }
             }
             for (error in directory.errors) {
-                System.err.println("ERROR: " + error)
+                log.error("ERROR: " + error)
             }
         }
         return imgInfoBean

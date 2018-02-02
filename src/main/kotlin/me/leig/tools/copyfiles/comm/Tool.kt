@@ -65,9 +65,10 @@ class Tool {
      *
      */
     fun dateToStr(date: Date, formatter: String = "yyyy-MM-dd HH:mm:SS"): String {
+        date.time
         return when(formatter) {
             "yyyy-MM-dd HH:mm:SS" -> {
-                SimpleDateFormat(formatter).format(date).substring(0, 19)
+                SimpleDateFormat(formatter).format(date)
             }
             "yMd" -> {
                 SimpleDateFormat("yyyy-MM-dd").format(date)

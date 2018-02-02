@@ -26,15 +26,20 @@ fun main(args: Array<String>) {
 
         val cb = Tool().analysisConf(File("config.json"))
 
-        val cfs = CopyFilesService()
+        val cfs = CopyFilesService(isCopyFile = cb.isCopyFile, isOverride = cb.isOverride)
 
         cfs.copyFiles(File(cb.sourcePath), File(cb.targetPath))
 
-        val cdf = CreateDataFile()
+        if (cb.isCreateSQL) {
 
-        cdf.createSql(cfs.fileInfoBeans, File(cb.sqlFilePath + "image.sql"))
+            val cdf = CreateDataFile()
+
+            cdf.createSql(cfs.fileInfoBeans, File(cb.sqlFilePath + "image.sql"))
+        }
 
     } catch (e: Exception) {
+
+        e.printStackTrace()
 
         log.error("捕获异常: " + e.message)
 

@@ -24,22 +24,25 @@ class CreateDataFile {
 
         for (fileInfoBean in fileInfoBeans) {
 
-            val sql = "INSERT INTO file " +
-                    "(title, content, fileType, mimeType, fileSize, saveUrl, " +
-                    "tempUrl, longitude, latitude, deleteFlag, createTime, " +
-                    "uploadTime, updateTime) VALUES " +
-                    "('${fileInfoBean.title}', '${fileInfoBean.content}', '${fileInfoBean.filetype}', " +
-                    "'${fileInfoBean.mimetype}', ${fileInfoBean.filesize}, '${fileInfoBean.saveurl}', " +
-                    "'${fileInfoBean.tempurl}', '${fileInfoBean.longitude}', '${fileInfoBean.latitude}'," +
-                    "${fileInfoBean.deleteflag}, '${Tool().dateToStr(fileInfoBean.createtime)}', " +
-                    "'${Tool().dateToStr(fileInfoBean.uploadtime)}', " +
-                    "'${Tool().dateToStr(fileInfoBean.updatetime)}');"
+            if (".DS_Store" != fileInfoBean.title) {
 
-            outFile.write(sql.toByteArray())
-            outFile.write("\n".toByteArray())
+                val time = Tool().dateToStr(fileInfoBean.createtime).substring(0, 17) + "00"
 
+                val sql = "INSERT INTO file " +
+                        "(title, content, fileType, mimeType, fileSize, saveUrl, " +
+                        "tempUrl, longitude, latitude, deleteFlag, createTime, " +
+                        "uploadTime, updateTime) VALUES " +
+                        "('${fileInfoBean.title}', '${fileInfoBean.content}', '${fileInfoBean.filetype}', " +
+                        "'${fileInfoBean.mimetype}', ${fileInfoBean.filesize}, '${fileInfoBean.saveurl}', " +
+                        "'${fileInfoBean.tempurl}', '${fileInfoBean.longitude}', '${fileInfoBean.latitude}'," +
+                        "${fileInfoBean.deleteflag}, '$time', " +
+                        "NOW(), " +
+                        "NOW());"
+
+                outFile.write(sql.toByteArray())
+                outFile.write("\n".toByteArray())
+            }
         }
-
         outFile.close()
     }
 }

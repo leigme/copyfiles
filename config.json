@@ -1,5 +1,8 @@
 {
-  "sourcePath":"E:\\Pictures\\",
-  "targetPath":"E:\\Desktop\\uploads\\",
-  "sqlFilePath":"E:\\Desktop\\"
+  "sourcePath":"/Volumes/Seagate/sourceimages",
+  "targetPath":"/Volumes/Seagate/temp",
+  "sqlFilePath":"/Volumes/Seagate/",
+  "isCopyFile":"true",
+  "isOverride":"false",
+  "isCreateSQL":"true"
 }
